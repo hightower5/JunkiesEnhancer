@@ -6,7 +6,7 @@
 // @include        http://download.serienjunkies.org/*
 // @include        http://dokujunkies.org/*
 // @exclude        /^http:\/\/(doku|serien)junkies\.org\/(hilfe|partner|useruploads|daily-update-archiv)\/?[^\/]*$/
-// @version        2014.5.2
+// @version        2016.05.18
 // @updateURL      http://userscripts.org/scripts/source/127205.meta.js
 // @downloadURL    https://userscripts.org/scripts/source/127205.user.js
 // @run-at         document-end
@@ -1075,7 +1075,7 @@ function fixToTopLink()
   $("a#totop").click(function ()
   {
     $.smoothScroll({
-      scrollTarget: "#header",
+      scrollTarget: "#outer",
       speed: 200,
       offset: -30
     });
@@ -1110,6 +1110,8 @@ function insertLinkMap()
 function addStyles()
 {
   GM_addStyle(
+    // own stuff
+    "#outer { width: 90%; margin-top: 60px; }" +
     // main stuff
     ".releaseSection { width: 100%; display: inline-block; position: relative; z-index: 0; }" +
     ".hosterButtonList { padding-right: 5px; display: block; margin-top: -5px; height: 20px; pointer-events: none; }" +
@@ -1137,7 +1139,7 @@ function addStyles()
     ".previewBlacklisted.releaseSection:not(.blacklisted):before { opacity: 0.08; }" +
     ".blacklisted.season, .blacklisted.releaseSection { opacity: 0.5; }" +
     ".mirrorSectionList { padding: 5px 10px; border-bottom: 1px solid #CCCCCC; overflow: auto; word-wrap: break-word; }" +
-    ".mirrorLink { position: relative; }" +
+    // ".mirrorLink { position: relative; }" +
     "#buttonSection { position: fixed; height: auto; right: 0; bottom: 20%; z-index: 0; }" +
     "#buttonSection > .bar, #buttonSection > .button { overflow: hidden; float: right; clear: right; margin: 5px 0; opacity: 0.5; border-radius: 5px 0 0 5px; border: 2px solid black; border-right-width: 0; }" +
     "#buttonSection > .bar:hover, #buttonSection > .button:hover { opacity: 1; box-shadow: 0 0 3px white; background-size: 20px; }" +
@@ -1217,8 +1219,8 @@ function addStyles()
     ".updateItem:hover .removeButton { opacity: 1 !important; }" +
     
     // main site track overview
-    "#trackOverview { background-color: white; padding: 1%; -moz-column-count: 2; column-count: 2; -webkit-column-count: 2; clear: left; overflow: auto; width: 98%; }" +
-    ".trackedSeries { position: relative; height: 150px; width: 100%; overflow: hidden; display: inline-block; background-repeat: no-repeat; background-position: 0 0; margin: 5px 0; }" +
+    "#trackOverview { background-color: white; padding: 1%; -moz-column-count: 2; column-count: 2; -webkit-column-count: 2; clear: left; overflow: auto; width: 98%; margin-bottom: 5px; }" +
+    ".trackedSeries { position: relative; height: 150px; width: 100%; display: inline-block; background-repeat: no-repeat; background-position: 0 0; margin: 5px 0; }" +
     ".trackedSeries:not(.hasUpdates) .updateListWrapper { display: none; }" +
     ".trackedSeriesLink, .titleEdit { font-family: Trebuchet MS,Georgia,Arial,serif; display: inline-block; margin-top: 10px; font-size: 20pt; font-weight: bold; background-color: white; border-radius: 0 5px 5px 0; }" +
     ".trackedSeriesLink { line-height: 20px; padding: 10px; height: 20px; opacity: 0.8; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; max-width: 70%; }" +
@@ -1257,14 +1259,15 @@ function addStyles()
     "#page_desc #text { padding: 0 0 0 2%; width: 98%; }" +
     "#page_desc p { padding: 10px 0 0 0; }" +
     "#search_top { position: absolute; right: 0; }" +
-    "#sidebar { width: 17%; overflow: auto; padding: 1%; margin: 0; }" +
-    "#content { width: 80%; padding: 0; }" +
+    "#sidebar { width: 16%; overflow: auto; padding: 1%; margin: 0; margin-right: 16px}" +
+    "#content { width: 78%; padding: 0; }" +
     "#content_wrap { width: 98%; padding: 1% 1% 0 1%;}" +
-    "#rap, #wrap { width: 90%; border-bottom: 4px solid black; font-size: 0.9em; }" +
+    "#rap, #wrap { width: 100%; border-bottom: 4px solid black; font-size: 0.9em; }" +
     ".post { margin: 5px 0; padding: 0; background-color: transparent; }" +
     "div#ct_container_outer { padding: 1% 1% 0 1%; width: 98%; }" +
     "#gnav { text-align: left; }" +
     "#leftdiv, iframe { display: none; }" +
+    ".g-recaptcha iframe { display: block; }" + 
     "#cnlbtn { cursor: pointer; }" +
     "#totop { background-color: white; border-left: 4px solid black; border-right: 4px solid black; padding: 5px 10px; }" +
     
@@ -3068,7 +3071,7 @@ function insertTrackOverview()
   if (bOnDokuJunkies)
     $("#page_desc").after(jTrackOverview);
   else
-    $("#header").after(jTrackOverview);
+    $("#content").before(jTrackOverview);
 }
 
 function checkTrackedSeriesForUpdates()
