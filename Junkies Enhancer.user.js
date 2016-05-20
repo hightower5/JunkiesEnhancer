@@ -6,7 +6,7 @@
 // @include        http://download.serienjunkies.org/*
 // @include        http://dokujunkies.org/*
 // @exclude        /^http:\/\/(doku|serien)junkies\.org\/(hilfe|partner|useruploads|daily-update-archiv)\/?[^\/]*$/
-// @version        2016.05.20
+// @version        2016.05.20.2010
 // @updateURL      http://userscripts.org/scripts/source/127205.meta.js
 // @downloadURL    https://userscripts.org/scripts/source/127205.user.js
 // @run-at         document-end
