@@ -315,7 +315,6 @@ oLangs =
     nextLoad : "next reload",
     clear : "clear",
     pleaseRetrack : "please retrack",
-    forumNotice: "show forum notice",
     trackedSeriesPositionOnTop: "show tracked series before search",
   },
   german :
@@ -366,7 +365,6 @@ oLangs =
     nextLoad : "nächstes Neuladen",
     clear : "leeren",
     pleaseRetrack : "bitte neu hinzufügen",
-    forumNotice: "Zeige Forum-Info",
     trackedSeriesPositionOnTop: "Verfolgte Serien vor der Suche anzeigen",
   }
 },
@@ -408,7 +406,6 @@ iResponseTimeout = 20000,
 iUpdateInterval = 3600000, // one hour
 bColorLinks = false,
 bSingleColumn = false,
-bForumNotice = true,
 bTrackedSeriesPositionOnTop = false;
 sLinkColor = "#8A3207",
 sVisitedColor = "#8A3207",
@@ -1112,8 +1109,7 @@ function addStyles()
   GM_addStyle(
     // own stuff
     "#outer { width: 90%; margin-top: 10px; }" +
-    "#forumNotice { " + (bOnHomePage && !bForumNotice ? "display: none; " : "") + " }" +
-    "#rap > #search { " + (bOnHomePage && !bForumNotice ? "margin-bottom: 5px; " : "") + " }" +
+    "#rap > #search { margin-bottom: 5px; }" +
     // main stuff
     ".releaseSection { width: 100%; display: inline-block; position: relative; z-index: 0; }" +
     ".hosterButtonList { padding-right: 5px; display: block; margin-top: -5px; height: 20px; pointer-events: none; }" +
@@ -1520,7 +1516,6 @@ function insertSettings()
       "<label" + (bDecryptionSupported ? "" : " style='display: none;'") + ">" + oMsgs.timeout + "<input id='timeoutInput' type='text' /></label>" +
       "<label>" + oMsgs.updateInterval + "<input id='updateIntervalInput' type='text' /></label>" +
       "<label>" + oMsgs.singleColumn + "<input id='singleColumnCheckBox' type='checkbox' /></label>" +
-      "<label>" + oMsgs.forumNotice + "<input id='forumNoticeCheckBox' type='checkbox' /></label>" +
       "<label>" + oMsgs.trackedSeriesPositionOnTop + "<input id='trackedSeriesPositionOnTopCheckBox' type='checkbox' /></label>" +
       "</td><td>" +
       "<label>" + oMsgs.colorLinks + "<input id='colorLinksCheckBox' type='checkbox' /></label>" +
@@ -1680,7 +1675,6 @@ function updateSettingsNode()
     find("#timeoutInput").val(iResponseTimeout / 1000);
     find("#updateIntervalInput").val(iUpdateInterval / 60000);
     find("#singleColumnCheckBox").prop("checked", bSingleColumn);
-    find("#forumNoticeCheckBox").prop("checked", bForumNotice);
     find("#trackedSeriesPositionOnTopCheckBox").prop("checked", bTrackedSeriesPositionOnTop);
     find("#colorLinksCheckBox").prop("checked", bColorLinks);
     find("#colorSection").toggle(bColorLinks);
@@ -1715,9 +1709,6 @@ function saveSettings()
     
     bSingleColumn = find("#singleColumnCheckBox").prop("checked");
     GM_setValue("single column", bSingleColumn);
-    
-    bForumNotice = find("#forumNoticeCheckBox").prop("checked");
-    GM_setValue("forum notice", bForumNotice);
     
     bTrackedSeriesPositionOnTop = find("#trackedSeriesPositionOnTopCheckBox").prop("checked");
     GM_setValue("tracked series position on top", bTrackedSeriesPositionOnTop);
@@ -1786,7 +1777,6 @@ function loadSettings()
   iResponseTimeout = GM_getValue("response timeout", iResponseTimeout);
   iUpdateInterval = GM_getValue("update interval", iUpdateInterval);
   bSingleColumn = GM_getValue("single column", bSingleColumn);
-  bForumNotice = GM_getValue("forum notice", bForumNotice);
   bTrackedSeriesPositionOnTop = GM_getValue("tracked series position on top", bTrackedSeriesPositionOnTop);
   bColorLinks = GM_getValue("color links", bColorLinks);
   sLinkColor = GM_getValue("link color", sLinkColor);
