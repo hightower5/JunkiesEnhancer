@@ -1,12 +1,12 @@
 // ==UserScript==
 // @name           Junkies Enhancer
 // @namespace      PandaScripting
-// @description    This script changes the layout of SerienJunkies.org and DokuJunkies.org for a better overview of series, seasons and episodes. It can also decrypt links now (Firefox only), keeps your series up to date and works with Chrome, Opera and Safari.
+// @description    Fork of the original Junkies enhancer by PandaScripting http://userscripts-mirror.org/scripts/review/127205 - This script changes the layout of SerienJunkies.org and DokuJunkies.org for a better overview of series, seasons and episodes. It can also decrypt links now (Firefox only), keeps your series up to date and works with Chrome, Opera and Safari.
 // @include        http://serienjunkies.org/*
 // @include        http://download.serienjunkies.org/*
 // @include        http://dokujunkies.org/*
 // @exclude        /^http:\/\/(doku|serien)junkies\.org\/(hilfe|partner|useruploads|daily-update-archiv)\/?[^\/]*$/
-// @version        2016.05.19
+// @version        2016.05.20
 // @updateURL      http://userscripts.org/scripts/source/127205.meta.js
 // @downloadURL    https://userscripts.org/scripts/source/127205.user.js
 // @run-at         document-end
