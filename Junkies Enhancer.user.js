@@ -6,7 +6,7 @@
 // @include        http://download.serienjunkies.org/*
 // @include        http://dokujunkies.org/*
 // @exclude        /^http:\/\/(doku|serien)junkies\.org\/(hilfe|partner|useruploads|daily-update-archiv)\/?[^\/]*$/
-// @version        2016.05.18
+// @version        2016.05.19
 // @updateURL      http://userscripts.org/scripts/source/127205.meta.js
 // @downloadURL    https://userscripts.org/scripts/source/127205.user.js
 // @run-at         document-end
@@ -315,6 +315,7 @@ oLangs =
     nextLoad : "next reload",
     clear : "clear",
     pleaseRetrack : "please retrack",
+    forumNotice: "show forum notice",
   },
   german :
   {
@@ -364,6 +365,7 @@ oLangs =
     nextLoad : "nächstes Neuladen",
     clear : "leeren",
     pleaseRetrack : "bitte neu hinzufügen",
+    forumNotice: "Zeige Forum-Info",
   }
 },
 
@@ -410,6 +412,7 @@ iResponseTimeout = 20000,
 iUpdateInterval = 3600000, // one hour
 bColorLinks = false,
 bSingleColumn = false,
+bForumNotice = true,
 sLinkColor = "#8A3207",
 sVisitedColor = "#8A3207",
 sHoverColor = "#753206",
@@ -1112,6 +1115,8 @@ function addStyles()
   GM_addStyle(
     // own stuff
     "#outer { width: 90%; margin-top: 60px; }" +
+    "#forumNotice { " + (bOnHomePage && !bForumNotice ? "display: none; " : "") + " }" +
+    "#rap > #search { " + (bOnHomePage && !bForumNotice ? "margin-bottom: 10px; " : "") + " }" +
     // main stuff
     ".releaseSection { width: 100%; display: inline-block; position: relative; z-index: 0; }" +
     ".hosterButtonList { padding-right: 5px; display: block; margin-top: -5px; height: 20px; pointer-events: none; }" +
@@ -1518,6 +1523,7 @@ function insertSettings()
       "<label" + (bDecryptionSupported ? "" : " style='display: none;'") + ">" + oMsgs.timeout + "<input id='timeoutInput' type='text' /></label>" +
       "<label>" + oMsgs.updateInterval + "<input id='updateIntervalInput' type='text' /></label>" +
       "<label>" + oMsgs.singleColumn + "<input id='singleColumnCheckBox' type='checkbox' /></label>" +
+      "<label>" + oMsgs.forumNotice + "<input id='forumNoticeCheckBox' type='checkbox' /></label>" +
       "</td><td>" +
       "<label>" + oMsgs.colorLinks + "<input id='colorLinksCheckBox' type='checkbox' /></label>" +
       "<div id='colorSection'>" +
@@ -1676,6 +1682,7 @@ function updateSettingsNode()
     find("#timeoutInput").val(iResponseTimeout / 1000);
     find("#updateIntervalInput").val(iUpdateInterval / 60000);
     find("#singleColumnCheckBox").prop("checked", bSingleColumn);
+    find("#forumNoticeCheckBox").prop("checked", bForumNotice);
     find("#colorLinksCheckBox").prop("checked", bColorLinks);
     find("#colorSection").toggle(bColorLinks);
     find("#linkColor").minicolors("value", sLinkColor);
@@ -1709,6 +1716,9 @@ function saveSettings()
     
     bSingleColumn = find("#singleColumnCheckBox").prop("checked");
     GM_setValue("single column", bSingleColumn);
+    
+    bForumNotice = find("#forumNoticeCheckBox").prop("checked");
+    GM_setValue("forum notice", bForumNotice);
     
     bColorLinks = find("#colorLinksCheckBox").prop("checked");
     GM_setValue("color links", bColorLinks);
@@ -1774,6 +1784,7 @@ function loadSettings()
   iResponseTimeout = GM_getValue("response timeout", iResponseTimeout);
   iUpdateInterval = GM_getValue("update interval", iUpdateInterval);
   bSingleColumn = GM_getValue("single column", bSingleColumn);
+  bForumNotice = GM_getValue("forum notice", bForumNotice);
   bColorLinks = GM_getValue("color links", bColorLinks);
   sLinkColor = GM_getValue("link color", sLinkColor);
   sVisitedColor = GM_getValue("visited color", sVisitedColor);
