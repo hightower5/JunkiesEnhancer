@@ -6,9 +6,7 @@
 // @include        http://download.serienjunkies.org/*
 // @include        http://dokujunkies.org/*
 // @exclude        /^http:\/\/(doku|serien)junkies\.org\/(hilfe|partner|useruploads|daily-update-archiv)\/?[^\/]*$/
-// @version        2016.05.22.1
-// @updateURL      http://userscripts.org/scripts/source/127205.meta.js
-// @downloadURL    https://userscripts.org/scripts/source/127205.user.js
+// @version        2016.05.22.2
 // @run-at         document-end
 // @grant          GM_getValue
 // @grant          GM_setValue
@@ -316,6 +314,7 @@ oLangs =
     clear : "clear",
     pleaseRetrack : "please retrack",
     trackedSeriesPositionOnTop: "show tracked series before search",
+    trackedSeriesColumnNumber: "number of tracked series columns",
   },
   german :
   {
@@ -366,6 +365,7 @@ oLangs =
     clear : "leeren",
     pleaseRetrack : "bitte neu hinzufügen",
     trackedSeriesPositionOnTop: "Verfolgte Serien vor der Suche anzeigen",
+    trackedSeriesColumnNumber: "Anzahl von Spalten verfolgter Serien",
   }
 },
 
@@ -407,6 +407,7 @@ iUpdateInterval = 3600000, // one hour
 bColorLinks = false,
 bSingleColumn = false,
 bTrackedSeriesPositionOnTop = false;
+bTrackedSeriesColumnNumber = 2;
 sLinkColor = "#8A3207",
 sVisitedColor = "#8A3207",
 sHoverColor = "#753206",
@@ -1173,6 +1174,7 @@ function addStyles()
     "#langIconWrapper { position: relative; margin: 0 auto; }" +
     "#settings label { margin: 5px; display: block; text-align: left; }" +
     "#settings input[type='checkbox'] { margin: 3px; float: right; }" +
+    "#settings select { margin: 3px; float: right; }" +
     "#timeoutInput, #updateIntervalInput { width: 40px; text-align: center; margin: 0 3px; float: right; }" +
     "#colorSection { text-align: right; padding: 0 2px; line-height: 25px; }" +
     "#colorSection span { cursor: default; display: block; }" +
@@ -1217,7 +1219,7 @@ function addStyles()
     ".updateItem:hover .removeButton { opacity: 1 !important; }" +
     
     // main site track overview
-    "#trackOverview { background-color: white; padding: 1%; -moz-column-count: 2; column-count: 2; -webkit-column-count: 2; clear: left; overflow: auto; width: 98%; margin-bottom: 5px; }" +
+    "#trackOverview { background-color: white; padding: 1%; -moz-column-count: " + bTrackedSeriesColumnNumber + "; column-count: "  + bTrackedSeriesColumnNumber + "; -webkit-column-count: " + bTrackedSeriesColumnNumber + "; clear: left; overflow: auto; width: 98%; margin-bottom: 5px; }" +
     ".trackedSeries { position: relative; height: 150px; width: 100%; display: inline-block; background-repeat: no-repeat; background-position: 0 0; margin: 5px 0; }" +
     ".trackedSeries:not(.hasUpdates) .updateListWrapper { display: none; }" +
     ".trackedSeriesLink, .titleEdit { font-family: Trebuchet MS,Georgia,Arial,serif; display: inline-block; margin-top: 10px; font-size: 20pt; font-weight: bold; background-color: white; border-radius: 0 5px 5px 0; }" +
@@ -1518,6 +1520,7 @@ function insertSettings()
       "<label>" + oMsgs.singleColumn + "<input id='singleColumnCheckBox' type='checkbox' /></label>" +
       "<label>" + oMsgs.trackedSeriesPositionOnTop + "<input id='trackedSeriesPositionOnTopCheckBox' type='checkbox' /></label>" +
       "</td><td>" +
+      "<label>" + oMsgs.trackedSeriesColumnNumber + "<select id='trackedSeriesColumnNumberDropdown'><option value='2'>2</option><option value='3'>3</option></select></label>" +
       "<label>" + oMsgs.colorLinks + "<input id='colorLinksCheckBox' type='checkbox' /></label>" +
       "<div id='colorSection'>" +
       "<span><div><input id='linkColor' type='text' /></div>" + oMsgs.linkColor.link + "</span>" +
@@ -1676,6 +1679,7 @@ function updateSettingsNode()
     find("#updateIntervalInput").val(iUpdateInterval / 60000);
     find("#singleColumnCheckBox").prop("checked", bSingleColumn);
     find("#trackedSeriesPositionOnTopCheckBox").prop("checked", bTrackedSeriesPositionOnTop);
+    find("#trackedSeriesColumnNumberDropdown").val(bTrackedSeriesColumnNumber);
     find("#colorLinksCheckBox").prop("checked", bColorLinks);
     find("#colorSection").toggle(bColorLinks);
     find("#linkColor").minicolors("value", sLinkColor);
@@ -1712,6 +1716,9 @@ function saveSettings()
     
     bTrackedSeriesPositionOnTop = find("#trackedSeriesPositionOnTopCheckBox").prop("checked");
     GM_setValue("tracked series position on top", bTrackedSeriesPositionOnTop);
+    
+    bTrackedSeriesColumnNumber = find("#trackedSeriesColumnNumberDropdown").val();
+    GM_setValue("tracked series column number", bTrackedSeriesColumnNumber);
     
     bColorLinks = find("#colorLinksCheckBox").prop("checked");
     GM_setValue("color links", bColorLinks);
@@ -1778,6 +1785,7 @@ function loadSettings()
   iUpdateInterval = GM_getValue("update interval", iUpdateInterval);
   bSingleColumn = GM_getValue("single column", bSingleColumn);
   bTrackedSeriesPositionOnTop = GM_getValue("tracked series position on top", bTrackedSeriesPositionOnTop);
+  bTrackedSeriesColumnNumber = GM_getValue("tracked series column number", bTrackedSeriesColumnNumber);
   bColorLinks = GM_getValue("color links", bColorLinks);
   sLinkColor = GM_getValue("link color", sLinkColor);
   sVisitedColor = GM_getValue("visited color", sVisitedColor);
