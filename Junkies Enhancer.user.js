@@ -6,7 +6,7 @@
 // @include        http://download.serienjunkies.org/*
 // @include        http://dokujunkies.org/*
 // @exclude        /^http:\/\/(doku|serien)junkies\.org\/(hilfe|partner|useruploads|daily-update-archiv)\/?[^\/]*$/
-// @version        2016.05.22.2
+// @version        2016.05.24.1
 // @run-at         document-end
 // @grant          GM_getValue
 // @grant          GM_setValue
@@ -1259,7 +1259,7 @@ function addStyles()
     "#page_desc #text { padding: 0 0 0 2%; width: 98%; }" +
     "#page_desc p { padding: 10px 0 0 0; }" +
     "#search_top { position: absolute; right: 0; }" +
-    "#sidebar { width: 16%; overflow: auto; padding: 1%; margin: 0; margin-right: 16px}" +
+    "#sidebar { width: 16%; overflow: auto; padding: 1%; margin-top: 0px !important; margin-right: 16px; float: left}" +
     "#content { width: 78% !important; padding: 0; }" +
     "#content_wrap { width: 98%; padding: 1% 1% 0 1%;}" +
     "#rap, #wrap { width: 100%; border-bottom: 4px solid black; font-size: 0.9em; }" +
