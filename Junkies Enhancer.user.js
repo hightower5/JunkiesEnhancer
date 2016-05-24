@@ -6,7 +6,7 @@
 // @include        http://download.serienjunkies.org/*
 // @include        http://dokujunkies.org/*
 // @exclude        /^http:\/\/(doku|serien)junkies\.org\/(hilfe|partner|useruploads|daily-update-archiv)\/?[^\/]*$/
-// @version        2016.05.24.2
+// @version        2016.05.24.3
 // @run-at         document-end
 // @grant          GM_getValue
 // @grant          GM_setValue
@@ -594,7 +594,7 @@ function Entry(sContent)
   this.isHomePageCaption = function ()
   {
     return bOnDokuJunkies && /^<span[^>]*>(Doku|Lernen|Reality\/Entertainment|Sport|ReUps|MirrorUpdates\/ReUps)<\/span>$/.test(sContent) ||
-    /^<strong[^>]*>(Deutsche Episoden|Englische Episoden mit deutschem Untertitel|TV-Filme|Englische Episoden|Deutsche Staffeln|Englische Staffeln)<\/strong>$/.test(sContent);
+    /^<strong[^>]*>(<font[^>]*>)*(Deutsche Episoden|Englische Episoden mit deutschem Untertitel|TV-Filme|Englische Episoden|Deutsche Staffeln|Englische Staffeln)(<\/font>)*<\/strong>$/.test(sContent);
   }
   this.toHtml = function (bBlacklistable, bBlacklisted)
   {
