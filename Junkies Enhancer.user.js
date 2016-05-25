@@ -6,7 +6,7 @@
 // @include        http://download.serienjunkies.org/*
 // @include        http://dokujunkies.org/*
 // @exclude        /^http:\/\/(doku|serien)junkies\.org\/(hilfe|partner|useruploads|daily-update-archiv)\/?[^\/]*$/
-// @version        2016.05.24.3
+// @version        2016.05.25.1
 // @run-at         document-end
 // @grant          GM_getValue
 // @grant          GM_setValue
@@ -576,7 +576,7 @@ function DecrMirrorLink(sId)
   var aParts = new Array();
 }
 
-function Entry(sContent)
+function Entry(nContent)
 {
   /*
   a table entry that isn't a list of episodes
@@ -585,7 +585,7 @@ function Entry(sContent)
   
   this.getContent = function ()
   {
-    return sContent;
+    return nContent.innerHTML;
   }
   this.isMetadata = function ()
   {
@@ -593,20 +593,21 @@ function Entry(sContent)
   }
   this.isHomePageCaption = function ()
   {
-    return bOnDokuJunkies && /^<span[^>]*>(Doku|Lernen|Reality\/Entertainment|Sport|ReUps|MirrorUpdates\/ReUps)<\/span>$/.test(sContent) ||
-    /^<strong[^>]*>(<font[^>]*>)*(Deutsche Episoden|Englische Episoden mit deutschem Untertitel|TV-Filme|Englische Episoden|Deutsche Staffeln|Englische Staffeln)(<\/font>)*<\/strong>$/.test(sContent);
+    return bOnDokuJunkies && /^<span[^>]*>(Doku|Lernen|Reality\/Entertainment|Sport|ReUps|MirrorUpdates\/ReUps)<\/span>$/.test(nContent.innerHTML) ||
+    (/^(Deutsche Episoden|Englische Episoden mit deutschem Untertitel|TV-Filme|Englische Episoden|Deutsche Staffeln|Englische Staffeln|Deutschsprachige Episoden|Fremdsprachige Episoden mit deutschem Untertitel|Englischsprachige Episoden|Deutschsprachige Staffeln|Englischsprachige Staffeln)$/.test(nContent.innerHTML) && $(nContent).hasClass('cat-title'));
   }
   this.toHtml = function (bBlacklistable, bBlacklisted)
   {
-    var sHtml = "<div class='entry'" +
+    var sClassName = this.isHomePageCaption() ? "entry cat-title" : "entry"
+    var sHtml = "<div class='" + sClassName + "'" +
       (bBlacklisted ? " style='display: none;'" : "") + ">";
     
     if (bBlacklistable)
       sHtml += "<div class='blacklistButton'></div>";
     
-    return sHtml + sContent + "</div>";
+    return sHtml + nContent.innerHTML + "</div>";
   }
-  var bIsMetadata = /<strong>Dauer:?<\/strong>/.test(sContent);
+  var bIsMetadata = /<strong>Dauer:?<\/strong>/.test(nContent.innerHTML);
 }
 
 function MirrorSection(sReleaseId, sHosterName)
@@ -3688,7 +3689,7 @@ function parseSeries(nContext, sSeriesId)
     
     if (aContainers.length == 0)
     {
-      oSeason.addEntry(new Entry(nPost.innerHTML));
+      oSeason.addEntry(new Entry(nPost));
       continue;
     }
     
@@ -3714,7 +3715,7 @@ function parseSeries(nContext, sSeriesId)
         if (contains(sEntryHtml, "alt=\"Cover\""))
           oSeason.setCover(sEntryHtml);
         else
-          oSeason.addEntry(new Entry(sEntryHtml.replace(/(<font size="4"><\/font>)/g, "")));
+          oSeason.addEntry(new Entry(nEntry));
       }
     }
     
@@ -3754,7 +3755,7 @@ function parseEpisode(nEntry, oSeason)
   
   if (aSubEntries.length == 0)
   {
-    oSeason.addEntry(new Entry(nEntry.innerHTML));
+    oSeason.addEntry(new Entry(nEntry));
     return;
   }
   
@@ -3877,7 +3878,7 @@ function parseMainPage()
           nElem == nTitle)
           continue;
         
-        oSeason.addEntry(new Entry(nElem.innerHTML));
+        oSeason.addEntry(new Entry(nElem));
       }
       
       sHtml += oSeason.toHtml();
@@ -3892,7 +3893,7 @@ function parseMainPage()
       // set is no update
       if (oSeason === null)
         oSeason = new Season();
-      oSeason.addEntry(new Entry(nUpdateSet.innerHTML));
+      oSeason.addEntry(new Entry(nUpdateSet));
     }
     
   }
