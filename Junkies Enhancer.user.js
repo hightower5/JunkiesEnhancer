@@ -6,7 +6,7 @@
 // @include        http://download.serienjunkies.org/*
 // @include        http://dokujunkies.org/*
 // @exclude        /^http:\/\/(doku|serien)junkies\.org\/(hilfe|partner|useruploads|daily-update-archiv)\/?[^\/]*$/
-// @version        2016.05.25.1
+// @version        2016.05.25.2
 // @run-at         document-end
 // @grant          GM_getValue
 // @grant          GM_setValue
@@ -1130,7 +1130,7 @@ function addStyles()
     ".seasonFooter { padding: 5px 0; }" +
     ".entry, .seasonCover { padding: 5px 0; overflow: auto; word-wrap: break-word; }" +
     ".entry span { color: black !important; font-weight: bold; }" +
-    ".entrySection { border-width: 1px; border-style: solid none; border-color: #CCCCCC; }" +
+    ".entrySection { border-width: 1px; border-style: none none solid none; border-color: #CCCCCC; }" +
     ":not(.seasonCover) + .releaseSection { margin-top: " + (bOnDokuJunkies && sBrowser != "Chrome" ? (bOnHomePage ? "-4px" : "-5px") : "-1px") + "; }" +
     ".releaseSection .blacklistButton, .seasonTitle .blacklistButton { cursor: pointer; float: left; background-image: url('" + oIcons.remove + "'); background-repeat: no-repeat; background-position: center center; width: 26px; height: 21px; opacity: 0; }" +
     ".blacklisted.releaseSection .blacklistButton, .blacklisted.season .blacklistButton { background-image: url('" + oIcons.add + "'); }" +
@@ -1220,8 +1220,8 @@ function addStyles()
     ".updateItem:hover .removeButton { opacity: 1 !important; }" +
     
     // main site track overview
-    "#trackOverview { background-color: white; padding: 1%; -moz-column-count: " + iTrackedSeriesColumnNumber + "; column-count: "  + iTrackedSeriesColumnNumber + "; -webkit-column-count: " + iTrackedSeriesColumnNumber + "; clear: left; overflow: auto; width: 98%; margin-bottom: 5px; }" +
-    ".trackedSeries { position: relative; height: 150px; width: 100%; display: inline-block; background-repeat: no-repeat; background-position: 0 0; margin: 5px 0; }" +
+    "#trackOverview { background-color: white; padding: 1%; clear: left; overflow: auto; width: 98%; margin-bottom: 5px; }" +
+    ".trackedSeries { position: relative; height: 150px; width: calc(" + (100/iTrackedSeriesColumnNumber) + "% - 11px); display: inline-block; background-repeat: no-repeat; background-position: 0 0; margin: 5px; }" +
     ".trackedSeries:not(.hasUpdates) .updateListWrapper { display: none; }" +
     ".trackedSeriesLink, .titleEdit { font-family: Trebuchet MS,Georgia,Arial,serif; display: inline-block; margin-top: 10px; font-size: 20pt; font-weight: bold; background-color: white; border-radius: 0 5px 5px 0; }" +
     ".trackedSeriesLink { line-height: 20px; padding: 10px; height: 20px; opacity: 0.8; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; max-width: 70%; }" +
@@ -2970,6 +2970,11 @@ function insertUpdateCache(sSeriesId, jUpdateCount, jUpdateList)
   setUpdateCount(iUpdateCount, jUpdateCount);
 }
 
+function deleteTrackOverview()
+{
+    $( "#trackOverview" ).remove();
+}
+
 function insertTrackOverview()
 {
   function fOnClick()
@@ -3040,6 +3045,8 @@ function insertTrackOverview()
     jCoverEdit.slideUp(200);
     jSeries.css("background-image", "url('" + sNewUrl + "')");
     jCoverEditButton.show();
+    deleteTrackOverview();
+    insertTrackOverview();
   }
   
   var iTrackedSeries = 0;
@@ -3049,10 +3056,22 @@ function insertTrackOverview()
     return;
   
   var sHtml = "<div id='trackOverview'>";
-  for (var sId in oTrackedSeries)
+  var aTrackedSeriesKeys = Object.keys(oTrackedSeries);
+  var aTrackedSeriesList = new Array();
+  aTrackedSeriesKeys.forEach(function(sId)
   {
-    var oTrS = oTrackedSeries[sId],
-    sTitle = oTrS.sTitle;
+      var oTrS = oTrackedSeries[sId];
+      oTrS.sId = sId;
+      aTrackedSeriesList.push(oTrS);
+  });
+  aTrackedSeriesList.sort(function(a, b) {
+    return a.sTitle.localeCompare(b.sTitle);
+  });
+  aTrackedSeriesList.forEach(function(oTrS)
+  {
+    // var oTrS = oTrackedSeries[sId],
+    var sTitle = oTrS.sTitle;
+    var sId = oTrS.sId;
     sHtml += "<div class='trackedSeries' id='" + escape(sId) + "' style='background-image: url(\"" + oTrS.sCoverUrl + "\");'>" +
       "<input type='text' class='coverEdit' style='display: none;' />" +
       "<div id='updateCount' class='waiting' " +
@@ -3067,7 +3086,7 @@ function insertTrackOverview()
       "<table cellpadding='0' cellspacing='0' class='updateList'><tbody /></table>" +
       "</div>" +
       "</div>";
-  }
+  });
   sHtml += "</div>";
   
   var jTrackOverview = $(sHtml),
