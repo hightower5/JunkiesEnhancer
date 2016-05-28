@@ -6,7 +6,7 @@
 // @include        http://download.serienjunkies.org/*
 // @include        http://dokujunkies.org/*
 // @exclude        /^http:\/\/(doku|serien)junkies\.org\/(hilfe|partner|useruploads|daily-update-archiv)\/?[^\/]*$/
-// @version        2016.05.25.2
+// @version        2016.05.28.1
 // @run-at         document-end
 // @grant          GM_getValue
 // @grant          GM_setValue
@@ -1221,7 +1221,7 @@ function addStyles()
     
     // main site track overview
     "#trackOverview { background-color: white; padding: 1%; clear: left; overflow: auto; width: 98%; margin-bottom: 5px; }" +
-    ".trackedSeries { position: relative; height: 150px; width: calc(" + (100/iTrackedSeriesColumnNumber) + "% - 11px); display: inline-block; background-repeat: no-repeat; background-position: 0 0; margin: 5px; }" +
+    ".trackedSeries { position: relative; height: 150px; width: calc(" + (100/iTrackedSeriesColumnNumber) + "% - 11px); display: inline-block; background-repeat: no-repeat; background-position: 0 0; margin: 5px; float: left; }" +
     ".trackedSeries:not(.hasUpdates) .updateListWrapper { display: none; }" +
     ".trackedSeriesLink, .titleEdit { font-family: Trebuchet MS,Georgia,Arial,serif; display: inline-block; margin-top: 10px; font-size: 20pt; font-weight: bold; background-color: white; border-radius: 0 5px 5px 0; }" +
     ".trackedSeriesLink { line-height: 20px; padding: 10px; height: 20px; opacity: 0.8; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; max-width: 70%; }" +
