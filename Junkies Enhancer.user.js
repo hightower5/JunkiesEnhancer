@@ -6,7 +6,7 @@
 // @include        http://download.serienjunkies.org/*
 // @include        http://dokujunkies.org/*
 // @exclude        /^http:\/\/(doku|serien)junkies\.org\/(hilfe|partner|useruploads|daily-update-archiv)\/?[^\/]*$/
-// @version        2016.05.28.1
+// @version        2016.05.29.1
 // @run-at         document-end
 // @grant          GM_getValue
 // @grant          GM_setValue
@@ -3047,6 +3047,7 @@ function insertTrackOverview()
     jCoverEditButton.show();
     deleteTrackOverview();
     insertTrackOverview();
+    checkTrackedSeriesForUpdates();
   }
   
   var iTrackedSeries = 0;
