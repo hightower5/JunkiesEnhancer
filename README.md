@@ -13,4 +13,4 @@ This script changes the layout of SerienJunkies.org and DokuJunkies.org for a be
 
 You can find the script on Greasyfork to install and get updates
 
-https://greasyfork.org/en/scripts/19827-junkies-enhancer/stats
+https://greasyfork.org/en/scripts/19827-junkies-enhancer
