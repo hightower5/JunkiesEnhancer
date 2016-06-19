@@ -6,7 +6,7 @@
 // @include        http://download.serienjunkies.org/*
 // @include        http://dokujunkies.org/*
 // @exclude        /^http:\/\/(doku|serien)junkies\.org\/(hilfe|partner|useruploads|daily-update-archiv)\/?[^\/]*$/
-// @version        2016.05.29.1
+// @version        2016.06.19.1
 // @run-at         document-end
 // @grant          GM_getValue
 // @grant          GM_setValue
@@ -1110,8 +1110,10 @@ function addStyles()
 {
   GM_addStyle(
     // own stuff
-    "#outer { width: 90% !important; margin-top: 10px; }" +
+    "#outer, #wrap { width: 90% !important; margin-top: 10px; }" +
     "#rap > #search { margin-bottom: 5px; }" +
+    "#pBadge { z-index: 99; }" +
+    "#content_wrap > #sidebar { margin: 0px 15px 0 8px; }" +
     // main stuff
     ".releaseSection { width: 100%; display: inline-block; position: relative; z-index: 0; }" +
     ".hosterButtonList { padding-right: 5px; display: block; margin-top: -5px; height: 20px; pointer-events: none; }" +
@@ -3102,13 +3104,15 @@ function insertTrackOverview()
   jTrackOverview.find(".titleEdit, .coverEdit").on("blur keypress", fOnBlurPress);
   
   if (bOnDokuJunkies)
-    $("#page_desc").after(jTrackOverview);
+    if (bTrackedSeriesPositionOnTop)
+      $("#search").before(jTrackOverview);
+    else
+      $("#search").after(jTrackOverview);
   else
     if (bTrackedSeriesPositionOnTop)
       $("#search").before(jTrackOverview);
     else
       $("#content").before(jTrackOverview);
-    
 }
 
 function checkTrackedSeriesForUpdates()
