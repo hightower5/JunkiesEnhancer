@@ -6,7 +6,7 @@
 // @include        http://download.serienjunkies.org/*
 // @include        http://dokujunkies.org/*
 // @exclude        /^http:\/\/(doku|serien)junkies\.org\/(hilfe|partner|useruploads|daily-update-archiv)\/?[^\/]*$/
-// @version        2016.06.20.1
+// @version        2016.09.18.1
 // @run-at         document-end
 // @grant          GM_getValue
 // @grant          GM_setValue
@@ -378,6 +378,7 @@ oHosterLogos =
   freaksharecom : "http://freakshare.com/images/favicon.ico",
   fileservecom : "http://fileserve.com/images/favicon.ico",
   firstloadcom : "http://www.firstload.com/favicon.ico",
+  filernet : "http://cdn.filer.net/favicon.ico?92012",
 },
 
 oIcons =
@@ -1060,10 +1061,14 @@ function getSeriesTitle()
 {
   var sSeriesTitle = document.title;
   with (sSeriesTitle)
-  sSeriesTitle = substr(indexOf(" » ") + 3);
+  if (indexOf(" » ") != -1)
+    sSeriesTitle = substr(indexOf(" » ") + 3);
   with (sSeriesTitle)
   if (indexOf(" » ") != -1)
     sSeriesTitle = substr(0, indexOf(" » ") + 3);
+  with (sSeriesTitle)
+  if (indexOf(" « ") != -1)
+    sSeriesTitle = substr(0, indexOf(" « "));
   if (sSeriesTitle == "%area%")
     return "Updates"; // I hope that's the only page with that bug
   return sSeriesTitle;
