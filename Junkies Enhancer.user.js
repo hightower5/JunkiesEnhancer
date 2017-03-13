@@ -1117,7 +1117,6 @@ function addStyles()
     // own stuff
     "#outer, #wrap { width: 90% !important; margin-top: 10px; }" +
     "#rap > #search { margin-bottom: 5px; }" +
-    "#pBadge { z-index: 99; }" +
     "#content_wrap > #sidebar { margin: 0px 15px 0 8px; }" +
     // main stuff
     ".releaseSection { width: 100%; display: inline-block; position: relative; z-index: 0; }" +
