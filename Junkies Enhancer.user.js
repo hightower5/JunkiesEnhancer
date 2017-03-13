@@ -6,7 +6,7 @@
 // @include        http://download.serienjunkies.org/*
 // @include        http://dokujunkies.org/*
 // @exclude        /^http:\/\/(doku|serien)junkies\.org\/(hilfe|partner|useruploads|daily-update-archiv)\/?[^\/]*$/
-// @version        2016.09.18.1
+// @version        2017.03.13.1
 // @run-at         document-end
 // @grant          GM_getValue
 // @grant          GM_setValue
