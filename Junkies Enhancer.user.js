@@ -372,13 +372,19 @@ oLangs =
 oHosterLogos =
 {
   uploadednet : "https://uploaded.net/favicon.ico",
-  shareonlinebiz : "https://www.share-online.biz/favicon.ico",
+  shareonlinebiz : "https://www.bilder-upload.eu/upload/2e431e-1571575745.png",
+  ddlto : "https://ddl.to/favicon.ico",
   depositfilescom : "https://static.depositfiles.com/images/favicon.ico",
+  fichiercom : "https://1fichier.com/favicon.ico",
   filefactorycom : "http://filefactory.com/favicon.ico",
-  freaksharecom : "http://freakshare.com/images/favicon.ico",
-  fileservecom : "http://fileserve.com/images/favicon.ico",
+  filernet : "https://filer.net/favicon.ico",
   firstloadcom : "http://www.firstload.com/favicon.ico",
-  filernet : "http://cdn.filer.net/favicon.ico?92012",
+  nitroflarecom : "https://nitroflare.com/favicon.ico",
+  oboomcom : "https://www.oboom.com/favicon.ico",
+  openloadco : "https://openload.co/favicon.ico",
+  rapidgatornet : "https://rapidgator.net/favicon.ico",
+  turbobitnet : "https://turbobit.net/favicon/fd1.ico",
+  uptoboxcom : "https://uptobox.com/assets/images/utb.png",
 },
 
 oIcons =
@@ -3851,8 +3857,21 @@ function correctHosterTitle(sTitle)
   case "ul.to":
   case "uploaded.to":
     return "uploaded.net";
-  case "freakshare.net":
-    return "freakshare.com"
+  case "DDL":
+    return "ddl.to";
+  case "Nitroflare.com":
+    return "nitroflare.com";
+  case "Oboom.com":
+    return "oboom.com";
+  case "Openload.co":
+    return "openload.co";
+  case "Rapidgator.net":
+    return "rapidgator.net";
+  case "turbobit":
+  case "Turbobit.net":
+    return "turbobit.net";
+  case "Uptobox.com":
+    return "uptobox.com"
   }
   
   return sTitle;
